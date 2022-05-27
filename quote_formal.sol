@@ -30,6 +30,7 @@ interface IzumiQuote {
 // }
 
 contract PriceQuote {
+    using SafeMath for uint128;
     using SafeMath for uint256;
     struct Params {
         bytes path;
@@ -67,19 +68,19 @@ contract PriceQuote {
         return ret;
     }
 
-    function multi_swap(address izumi_quote,uint128 amount,bytes[] calldata paths,address[] calldata pairs,uint128[] calldata directions,uint[] calldata fees) public returns (uint256[] memory amount_rets,uint256[] memory amount_inner) {
+    function multi_swap(address izumi_quote,uint128[] calldata amounts,bytes[] calldata paths,address[] calldata pairs,uint128[] calldata direct_fee) public returns (uint256[] memory amount_rets,uint256[] memory amount_inner) {
         uint256[] memory amount_rets = new uint256[](paths.length);
         uint256[] memory amount_inner = new uint256[](paths.length);
         for (uint256 i = 0; i < paths.length; i++) {
-            amount_inner[i] = izumi_swap(izumi_quote,amount,paths[i]);
+            amount_inner[i] = izumi_swap(izumi_quote,amounts[i],paths[i]);
             if (i == 0) {
-                amount_rets[i] = izumi_swap(izumi_quote,amount,paths[i]);
+                amount_rets[i] = izumi_swap(izumi_quote,amounts[i],paths[i]);
             } else {
                 (uint reserve0, uint reserve1) = get_reserves(pairs[i]);
-                if (directions[i] == 0) {
-                    amount_rets[i] = getAmountOut(amount_inner[i],reserve0,reserve1,fees[i]);
+                if (direct_fee[i] / 1000 == 0) {
+                    amount_rets[i] = getAmountOut(amount_inner[i],reserve0,reserve1,direct_fee[i] % 1000);
                 } else {
-                    amount_rets[i] = getAmountOut(amount_inner[i],reserve1,reserve0,fees[i]);
+                    amount_rets[i] = getAmountOut(amount_inner[i],reserve1,reserve0,direct_fee[i] % 1000);
                 }
             }
             
