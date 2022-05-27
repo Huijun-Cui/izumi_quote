@@ -69,13 +69,18 @@ contract PriceQuote {
         return ret;
     }
 
-    function multi_swap(address izumi_quote,uint128 amount,bytes[] calldata paths,address[] calldata pairs,uint128[] calldata directions,uint128[] calldata fees) public returns (uint256[] memory) {
+    function multi_swap(address izumi_quote,uint128 amount,bytes[] calldata paths,address[] calldata pairs,uint128[] calldata directions,uint[] calldata fees) public returns (uint256[] memory) {
         uint256[] memory amount_rets = new uint256[](paths.length);
         uint256 amount3;
         for (uint256 i = 0; i < paths.length; i++) {
 
             uint256 amount2 = izumi_swap(izumi_quote,amount,paths[i]);
             (uint reserve0, uint reserve1) = get_reserves(pairs[i]);
+            if (directions[i] == 0) {
+                amount_rets[i] = getAmountOut(amount2,reserve0,reserve1,fees[i]);
+            } else {
+                amount_rets[i] = getAmountOut(amount2,reserve1,reserve0,fees[i]);
+            }
         }
         return amount_rets;
     }
