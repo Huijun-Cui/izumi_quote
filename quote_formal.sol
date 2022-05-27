@@ -40,8 +40,6 @@ contract PriceQuote {
 
     address payable public _owner;
     
-    mapping(address => mapping(address => bytes)) private _pool;
-    mapping(address => mapping(address => mapping(address => bytes))) private _pool2;
     constructor() public {
         _owner = payable(msg.sender);
     }
@@ -69,24 +67,24 @@ contract PriceQuote {
         return ret;
     }
 
-    function multi_swap(address izumi_quote,uint128 amount,bytes[] calldata paths,address[] calldata pairs,uint128[] calldata directions,uint[] calldata fees) public returns (uint256[] memory) {
+    function multi_swap(address izumi_quote,uint128 amount,bytes[] calldata paths,address[] calldata pairs,uint128[] calldata directions,uint[] calldata fees) public returns (uint256[] memory amount_rets,uint256[] memory amount_inner) {
         uint256[] memory amount_rets = new uint256[](paths.length);
-        uint256 amount3;
+        uint256[] memory amount_inner = new uint256[](paths.length);
         for (uint256 i = 0; i < paths.length; i++) {
-            uint256 amount2 = izumi_swap(izumi_quote,amount,paths[i]);
+            amount_inner[i] = izumi_swap(izumi_quote,amount,paths[i]);
             if (i == 0) {
-                amount_rets[i] = amount2;
+                amount_rets[i] = izumi_swap(izumi_quote,amount,paths[i]);
             } else {
                 (uint reserve0, uint reserve1) = get_reserves(pairs[i]);
                 if (directions[i] == 0) {
-                    amount_rets[i] = getAmountOut(amount2,reserve0,reserve1,fees[i]);
+                    amount_rets[i] = getAmountOut(amount_inner[i],reserve0,reserve1,fees[i]);
                 } else {
-                    amount_rets[i] = getAmountOut(amount2,reserve1,reserve0,fees[i]);
+                    amount_rets[i] = getAmountOut(amount_inner[i],reserve1,reserve0,fees[i]);
                 }
             }
             
         }
-        return amount_rets;
+        return (amount_rets,amount_inner);
     }
 
     

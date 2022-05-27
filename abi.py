@@ -1,47 +1,5 @@
 swap_abi = [
 	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"inputs": [],
-		"name": "_owner",
-		"outputs": [
-			{
-				"internalType": "address payable",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "pair",
-				"type": "address"
-			}
-		],
-		"name": "get_reserves",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "reserveA",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "reserveB",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -107,11 +65,58 @@ swap_abi = [
 		"outputs": [
 			{
 				"internalType": "uint256[]",
-				"name": "",
+				"name": "amount_rets",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "amount_inner",
 				"type": "uint256[]"
 			}
 		],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [],
+		"name": "_owner",
+		"outputs": [
+			{
+				"internalType": "address payable",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "pair",
+				"type": "address"
+			}
+		],
+		"name": "get_reserves",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "reserveA",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "reserveB",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	}
 ]

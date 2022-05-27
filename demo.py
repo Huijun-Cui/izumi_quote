@@ -9,7 +9,7 @@ def getAmountOut(amountIn,reserveIn,reserveOut):
     amountOut = numerator / denominator
     return amountOut
 w3 = Web3(Web3.HTTPProvider('https://bsc-dataseed.binance.org/'))
-addr_input = '0xE9C97c26a090FdA5F526b3E2A45861F8D612789D'
+addr_input = '0x3e5aEA24c11D157330c3D964AE23da8399909337'
 izumi = w3.eth.contract(address = addr_input,abi = swap_abi)
 # print(izumi.functions.factory().call())
 ret = izumi.functions.multi_swap(
