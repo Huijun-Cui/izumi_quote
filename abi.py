@@ -36,9 +36,9 @@ swap_abi = [
 				"type": "address"
 			},
 			{
-				"internalType": "uint128",
-				"name": "amount",
-				"type": "uint128"
+				"internalType": "uint128[]",
+				"name": "amounts",
+				"type": "uint128[]"
 			},
 			{
 				"internalType": "bytes[]",
@@ -52,13 +52,8 @@ swap_abi = [
 			},
 			{
 				"internalType": "uint128[]",
-				"name": "directions",
+				"name": "direct_fee",
 				"type": "uint128[]"
-			},
-			{
-				"internalType": "uint256[]",
-				"name": "fees",
-				"type": "uint256[]"
 			}
 		],
 		"name": "multi_swap",
